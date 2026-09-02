@@ -20,12 +20,15 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: '8.5'
 
     - name: Build APK with Gradle
+      working-directory: ./Q3_corrected
       run: gradle assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: Q3_corrected/app/build/outputs/apk/debug/app-debug.apk
