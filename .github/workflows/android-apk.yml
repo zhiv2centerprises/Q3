@@ -3,6 +3,7 @@ name: Build Android APK
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,12 +24,15 @@ jobs:
       with:
         gradle-version: '8.5'
 
-    - name: Build APK with Gradle
-      working-directory: ./Q3_corrected
-      run: gradle assembleDebug
+    - name: Build APK
+      run: |
+        if [ -d "Q3_corrected" ]; then
+          cd Q3_corrected
+        fi
+        gradle assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
-        path: Q3_corrected/app/build/outputs/apk/debug/app-debug.apk
+        path: '**/build/outputs/apk/debug/*.apk'
